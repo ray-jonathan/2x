@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/233/black-right-pointing-double-triangle_23e9.png">
+		<title>2x by Jonathan Ray</title>
+	</head>
+	<body>
+		<script>
+			const bookmarklet = encodeURI(`javascript: (function() {
+	const speedLookup = {
+		'0.5': 0.75,
+		'0.75': 1,
+		'1': 1.25,
+		'1.25': 1.5,
+		'1.5': 1.75,
+		'1.75': 2,
+		'2': 0.5,
+	};
+	const allVideoElements = [...document.querySelectorAll('video')];
+	if (allVideoElements.length === 0) {
+		function playbackTime(e) {
+			if (e.shiftKey) {
+				e.stopPropagation();
+				const allVideoElements = [...document.querySelectorAll('video')];
+				allVideoElements.forEach(video => {
+					if (!video.paused)
+						video.playbackRate = speedLookup[video.playbackRate];
+				});
+			}
+			return;
+		}
+		window.addEventListener('contextmenu', playbackTime);
+	} else {
+		allVideoElements.forEach(video => {
+			if (!video.paused) video.playbackRate = speedLookup[video.playbackRate];
+		});
+	}
+})();
+`);
+			const a = document.createElement('a');
+			const btn = document.createElement('button');
+			btn.textContent = 'Change Speed';
+			a.append(btn);
+			a.setAttribute('href', bookmarklet);
+			a.addEventListener('click', e => {
+				e.preventDefault();
+				console.log('click');
+			});
+			const p = document.createElement('p');
+			p.innerHTML =
+        `To add bookmarklet to your browser, simply drag the "Change Speed" icon into your bookmarks bar. Now, whenever you visit a page with a video element, if you wish to change the speed, simply click on the bookmarklet. 
+        <br>
+        If the video opens in a new window, as AWS\'s training videos do, simply hold <pre>SHIFT</pre> while you <pre>RIGHT CLICK</pre> (sometimes referred to a two-finger or context click). 
+        <br>
+        If you encounter any video players that do no respond to this utility, please alert me so I can add support. 
+        <br>
+        Enjoy!`;
+			document.body.append(p);
+			document.body.append(a);
+		</script>
+		<style>
+			body {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			a {
+				text-decoration: none;
+			}
+			button:hover {
+				cursor: move;
+			}
+			button {
+				color: black;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 1rem;
+				height: 100%;
+				width: 10rem;
+				text-align: center;
+				overflow-wrap: break-word;
+				background-color: rgb(100, 200, 100);
+			}
+			p {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+      pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    color: #666;
+    font-family: monospace;
+    display: inline;
+}
+		</style>
+	</body>
+</html>
